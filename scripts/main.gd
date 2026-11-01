@@ -3,6 +3,8 @@ extends Node3D
 ## Steam Frame 3D STL Inspector (Godot 4)
 ## Immersive PBR Showroom with OpenXR Hand Tracking, Studio Lighting, and Gamepad Controls.
 
+const STLLoader = preload("res://scripts/stl_loader.gd")
+
 var is_xr: bool = false
 var xr_interface: XRInterface
 
