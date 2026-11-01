@@ -25,3 +25,6 @@ anti_aliasing/quality/screen_space_aa=1
 [xr]
 
 openxr/enabled=true
+
+openxr/default_action_map="res://openxr_action_map.tres"
+

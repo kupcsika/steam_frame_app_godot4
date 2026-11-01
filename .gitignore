@@ -2,3 +2,6 @@
 bin/
 *.translation
 .DS_Store
+build/
+dist/
+
