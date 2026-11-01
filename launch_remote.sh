@@ -67,7 +67,18 @@ if ! ssh -o BatchMode=yes -o ConnectTimeout=5 "$REMOTE_HOST" "echo 'Connected OK
 fi
 echo "SSH connection verified."
 
-# 2. Sync codebase if requested or if remote dir doesn't exist
+# 2. Ensure Godot ARM64 binary is available locally before sync
+if [ ! -f "$SCRIPT_DIR/bin/godot.arm64" ]; then
+    echo "[launch_remote.sh] Godot ARM64 binary not found locally. Downloading..."
+    mkdir -p "$SCRIPT_DIR/bin"
+    curl -L -o "$SCRIPT_DIR/bin/godot_arm64.zip" "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.arm64.zip"
+    unzip -q "$SCRIPT_DIR/bin/godot_arm64.zip" -d "$SCRIPT_DIR/bin"
+    mv "$SCRIPT_DIR/bin/Godot_v4.7.2-stable_linux.arm64" "$SCRIPT_DIR/bin/godot.arm64"
+    chmod +x "$SCRIPT_DIR/bin/godot.arm64"
+    rm -f "$SCRIPT_DIR/bin/godot_arm64.zip"
+fi
+
+# 3. Sync codebase if requested or if remote dir doesn't exist
 if [ "$DO_SYNC" = true ]; then
     echo "[2/4] Syncing codebase with rsync..."
     "$SCRIPT_DIR/sync.sh"
